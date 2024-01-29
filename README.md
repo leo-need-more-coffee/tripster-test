@@ -25,3 +25,10 @@
 Авторизация через заголовок Authorization и Basic Auth.
 
 Если есть вопросы - буду рад на все ответить!
+
+Запуск:
+```commandline
+pip install -r requirements.txt
+uvicorn api:app
+pytest ./tests/users.py -v && pytest ./tests/articles.py -v && pytest ./tests/ratings.py -v
+```

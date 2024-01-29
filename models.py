@@ -1,6 +1,8 @@
 from hashlib import sha256
 from sqlalchemy import Integer, String, Column, create_engine, Boolean
 from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import event, select, text
+from sqlalchemy.sql import functions
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 
@@ -80,7 +82,16 @@ class Article(Base):
             "date": self.date,
             "content": self.content,
             "author_id": self.author_id,
+            "rating": self.rating()
         }
+
+    def rating(self):
+        query = select(functions.sum(Rating.rating).label("rating")) \
+            .where(Rating.article_id == self.id) \
+            .group_by(Rating.article_id)
+
+        result = db_session.execute(query).scalar()
+        return int(result) if result is not None else 0
 
     def __repr__(self):
         return f"<Article {self.title}>"
