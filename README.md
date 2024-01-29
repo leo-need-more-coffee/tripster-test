@@ -32,3 +32,5 @@ pip install -r requirements.txt
 uvicorn api:app
 pytest ./tests/users.py -v && pytest ./tests/articles.py -v && pytest ./tests/ratings.py -v
 ```
+
+Обычно ip - ```localhost:8000```
